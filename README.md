@@ -6,8 +6,6 @@ Proxy server for Go
 const http = require('http');
 
 function request() {
-  console.log('serve: ' + req.url);
-
   const options = {
     hostname: 'localhost',
     port: 33333,
@@ -29,5 +27,5 @@ function request() {
 ```
 
 ## Headers
-* X-Token: AES-256 encoded value in base64
+* X-Token: AES-256 encoded value in base64 using scrypt derivation function
 * X-Url: Proxy URL, must be of a whitelisted domain
