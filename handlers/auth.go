@@ -13,17 +13,17 @@ func AuthenticationHandler(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		key := r.Header.Get("X-Token")
 		if key == "" {
-			Unauthorized(w, r)
+			Unauthorized(w, r, NoToken)
 			return
 		}
 		code := os.Getenv("ProxyAuthKey")
 		encryptedToken, err := encrypt([]byte(code[:128]), []byte(time.Now().UTC().Format("20060102")))
 		if err != nil {
-			Unauthorized(w, r)
+			Unauthorized(w, r, Internal)
 			return
 		}
 		if key != encryptedToken {
-			Unauthorized(w, r)
+			Unauthorized(w, r, InvalidToken)
 			return
 		}
 		next.ServeHTTP(w, r)

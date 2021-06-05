@@ -11,7 +11,7 @@ import (
 func request(w http.ResponseWriter, r *http.Request, method string) *http.Request {
 	url := r.Header.Get("X-Url")
 	if url == "" {
-		handlers.Unauthorized(w, r)
+		handlers.Unauthorized(w, r, handlers.NoUrl)
 		return nil
 	}
 	query := r.URL.RawQuery
@@ -56,7 +56,9 @@ func Get(w http.ResponseWriter, r *http.Request) {
 	if req == nil {
 		return
 	}
-	fmt.Fprintf(w, execute(w, r, req))
+	response := execute(w, r, req)
+	handlers.Log(w, r, "GET", response)
+	fmt.Fprintf(w, response)
 }
 
 func Post(w http.ResponseWriter, r *http.Request) {
@@ -65,5 +67,11 @@ func Post(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	req.Body = r.Body
-	fmt.Fprintf(w, execute(w, r, req))
+	response := execute(w, r, req)
+	handlers.Log(w, r, "POST", response)
+	fmt.Fprintf(w, response)
+}
+
+func NotFound(w http.ResponseWriter, r *http.Request) {
+	handlers.Invalid(w, r, handlers.InvalidPath)
 }

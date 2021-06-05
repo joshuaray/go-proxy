@@ -13,21 +13,24 @@ func FilterHandler(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		requestUrl := r.Header.Get("X-Url")
 		if requestUrl == "" {
-			Unauthorized(w, r)
+			Unauthorized(w, r, NoUrl)
 			return
 		}
 		url, err := url.Parse(requestUrl)
 		if err != nil {
 			fmt.Println("Unable to parse request url: " + requestUrl)
-			Unauthorized(w, r)
+			Unauthorized(w, r, BadUrl)
 			return
 		}
 		hostParts := strings.Split(url.Host, ".")
+		if len(hostParts) < 2 {
+			hostParts = strings.Split(url.Path, ".")
+		}
 		hostLen := len(hostParts)
 		host := hostParts[hostLen-2] + "." + hostParts[hostLen-1]
 		if err != nil {
 			fmt.Println("Unable to parse url host: " + requestUrl)
-			Unauthorized(w, r)
+			Unauthorized(w, r, BadUrl)
 			return
 		}
 
@@ -41,7 +44,7 @@ func FilterHandler(next http.Handler) http.Handler {
 		}
 
 		if !isValid {
-			Unauthorized(w, r)
+			Unauthorized(w, r, InvalidDomain)
 			return
 		}
 

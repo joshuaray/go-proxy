@@ -16,6 +16,7 @@ func main() {
 	r.Use(handlers.FilterHandler)
 	r.HandleFunc("/proxy", endpoints.Get).Methods("get")
 	r.HandleFunc("/proxy", endpoints.Post).Methods("post")
+	r.PathPrefix("/").HandlerFunc(endpoints.NotFound).Methods("get", "post", "put", "patch", "delete")
 
 	go func() {
 		err := http.ListenAndServe(":33333", r)
