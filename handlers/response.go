@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 )
 
 type ResponseType string
@@ -58,6 +59,7 @@ func getBody(r *http.Request) string {
 
 func getProperties(r *http.Request) string {
 	return "\r\n" +
+		"        Timestamp:         " + time.Now().UTC().String() + "\r\n" +
 		"        Request URL:       " + r.RequestURI + "\r\n" +
 		"        Source IP Address: " + getIP(r) + "\r\n" +
 		"        Method:            " + r.Method + "\r\n" +
