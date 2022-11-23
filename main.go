@@ -4,9 +4,9 @@ import (
 	"flag"
 	"fmt"
 	"net/http"
-	"strings"
 	"proxy/endpoints"
 	"proxy/handlers"
+	"strings"
 
 	"github.com/gorilla/mux"
 )
@@ -15,7 +15,7 @@ func main() {
 	r := mux.NewRouter().StrictSlash(true)
 	r.Methods("OPTIONS").HandlerFunc(func(http.ResponseWriter, *http.Request) {})
 	r.Use(handlers.AuthenticationHandler)
-	r.Use(handlers.FilterHandler)
+	r.Use(handlers.WhiteListHandler(parseConfig()))
 	r.HandleFunc("/proxy", endpoints.Get).Methods("get")
 	r.HandleFunc("/proxy", endpoints.Post).Methods("post")
 	r.PathPrefix("/").HandlerFunc(endpoints.NotFound).Methods("get", "post", "put", "patch", "delete")
@@ -35,5 +35,5 @@ func parseConfig() []string {
 	if whitelist == nil {
 		return nil
 	}
-	return strings.Split(whitelist, ",")
+	return strings.Split(*whitelist, ",")
 }
