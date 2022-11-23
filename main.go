@@ -1,8 +1,10 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net/http"
+	"strings"
 	"proxy/endpoints"
 	"proxy/handlers"
 
@@ -25,4 +27,13 @@ func main() {
 		}
 	}()
 	select {}
+}
+
+func parseConfig() []string {
+	whitelist := flag.String("whitelist", "", "comma delimited list of white-listed domains")
+	flag.Parse()
+	if whitelist == nil {
+		return nil
+	}
+	return strings.Split(whitelist, ",")
 }
