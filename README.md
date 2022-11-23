@@ -1,3 +1,5 @@
+<img alt="Golang" src="https://img.shields.io/badge/Golang-276DC3.svg?logo=go&logoColor=white">
+
 # go-proxy
 Proxy server for Go
 
