@@ -30,4 +30,4 @@ function request() {
 
 ## Headers
 * X-Token: AES-256 encoded value in base64 using scrypt derivation function
-* X-Url: Proxy URL, must be of a whitelisted domain
+* X-Url: Proxy URL (Domain may be whitelisted if configured)
