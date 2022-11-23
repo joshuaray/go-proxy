@@ -1,4 +1,4 @@
-<img alt="Golang" src="https://img.shields.io/badge/Golang-276DC3.svg?logo=go&logoColor=white">
+<img alt="Golang" src="https://img.shields.io/badge/Golang-276DC3.svg?logo=go&logoColor=white"> [![Go](https://github.com/joshuaray/go-proxy/actions/workflows/go-build.yml/badge.svg)](https://github.com/joshuaray/go-proxy/actions/workflows/go-build.yml)
 
 # go-proxy
 Proxy server for Go
