@@ -35,10 +35,14 @@ func WhiteListHandler(whitelist []string) func(http.Handler) http.Handler {
 
 			host = strings.ToLower(host)
 			isValid := false
-			for i := 0; i < len(whitelist); i++ {
-				if strings.ToLower(whitelist[i]) == host {
-					isValid = true
-					break
+			if len(whitelist) == 0 {
+				isValid = true
+			} else {
+				for i := 0; i < len(whitelist); i++ {
+					if strings.ToLower(whitelist[i]) == host {
+						isValid = true
+						break
+					}
 				}
 			}
 
